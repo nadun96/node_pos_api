@@ -22,7 +22,9 @@ const updateCustomer = async (req, res) => {
       { new: true, runValidators: true }
     );
     if (updatedCustomer) {
-      return res.status(404).json({ message: "Customer not found" });
+      return res
+        .status(404)
+        .json({ message: "Customer Updated", data: updatedCustomer });
     }
     res.status(404).json({ message: "Customer not found" });
   } catch (error) {
@@ -72,7 +74,19 @@ const loadAllCustomers = async (req, res) => {
           ],
         }
       : {};
-    res.status(200).json({ message: "Loaded", data: customers });
+    const customers = await Customer.find(filter)
+      .skip((page - 1) * size)
+      .limit(size);
+    const total = await Customer.countDocuments(filter);
+    const totalPages = Math.ceil(total / size);
+    res.set("X-Total-Count", total);
+    res.set("X-Total-Pages", totalPages);
+    res.set("X-Page", page);
+    res.set("X-Size", size);
+    res.set("X-Search-Text", searchText);
+    res.set("X-Filter", filter);
+    res.set("X-Size", size);
+    res.status(200).json({ message: "Loaded", data: { datalist: customers } });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const ProductSchema = new mongoose.Schema({
   productName: { type: String, required: true },
   description: { type: String, required: true },
@@ -7,4 +8,5 @@ const ProductSchema = new mongoose.Schema({
   isActive: { type: Boolean, required: true },
   images: { type: Array },
 });
+
 module.exports = mongoose.model("product", ProductSchema);
