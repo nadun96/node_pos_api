@@ -70,23 +70,47 @@ const findOrder = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-loadAllOrders = async (req, res) => {
+
+const loadAllOrders = async (req, res) => {
   try {
     const { page = 1, size = 10 } = req.query;
-    const cutomerList = await order
-      .find()
+    const cutomerList = await Order.find()
       .sort({ Date: -1 })
       .limit(parseInt(size))
       .skip((page - 1) * size);
-    const totalOrders = await order.countDocuments();
+    const totalOrders = await Order.countDocuments();
+    res.status(200).json({
+      message: "Orders found",
+      data: cutomerList,
+      totalOrders,
+      totalPages: Math.ceil(totalOrders / size),
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
+const deleteOrder = async (req, res) => {
+  try {
+    const order = new Order(req.body);
+    const deletedOrder = await Order.findByIdAndDelete(
+      { _id: req.params.id },
+      req.body
+    );
+
+    if (deletedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    res.status(200).json({ message: "Order deleted", data: deletedOrder });
+  } catch {
+    res.status(500).json({ error: error.message });
+  }
+};
 module.exports = {
   saveOrder,
   updateOrder,
   updateOrderStatus,
   findOrder,
+  loadAllOrders,
+  deleteOrder,
 };

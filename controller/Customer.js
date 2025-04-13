@@ -69,7 +69,8 @@ const loadAllCustomers = async (req, res) => {
     const filter = searchText
       ? {
           $or: [
-            { name: { $regex: searchText, $options: "i" } },
+            { cutomerName: { $regex: searchText, $options: "i" } },
+            { address: { $regex: searchText, $options: "i" } },
             { email: { $regex: searchText, $options: "i" } },
           ],
         }
