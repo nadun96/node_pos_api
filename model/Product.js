@@ -9,4 +9,8 @@ const ProductSchema = new mongoose.Schema({
   images: { type: Array },
 });
 
+ProductSchema.statics.findLowStockProducts = function () {
+  return this.find({ qtyOnHand: { $lt: 10 } });
+};
+
 module.exports = mongoose.model("product", ProductSchema);
