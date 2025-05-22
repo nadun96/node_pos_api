@@ -5,25 +5,25 @@ const verifyToken = require("../middleware/Auth");
 
 router.post(
   "/create",
-  verifyToken(["admin", "manager", "user"]),
+  verifyToken(["admin", "manager"]),
   orderController.saveOrder
 ); // Create a new order
 
 router.put(
   "/update/:id",
-  verifyToken(["admin", "manager", "user"]),
+  verifyToken(["admin"]),
   orderController.updateOrder
 ); // Update an existing order
 
 router.put(
   "/update-status/:id",
-  verifyToken(["admin", "manager", "user"]),
+  verifyToken(["admin"]),
   orderController.updateOrderStatus
 ); // Update order status
 
 router.delete(
   "/delete/:id",
-  verifyToken(["admin", "manager", "user"]),
+  verifyToken(["admin"]),
   orderController.deleteOrder
 ); // Delete an order
 

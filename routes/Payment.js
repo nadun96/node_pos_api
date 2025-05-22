@@ -5,12 +5,12 @@ const paymentsController = require("../controller/Payment");
 const verifyToken = require("../middleware/Auth");
 router.post(
   "/create",
-  verifyToken(["admin", "manager", "user"]),
+  verifyToken(["admin", "manager"]),
   paymentsController.makePayment
 );
 router.put(
   "/update/:id",
-  verifyToken(["admin", "manager", "user"]),
+  verifyToken(["admin"]),
   paymentsController.updatePayment
 );
 router.get(

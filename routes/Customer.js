@@ -21,12 +21,12 @@ router.get(
 );
 router.put(
   "/customer/:id",
-  verifyToken(["admin", "manager"]),
+  verifyToken(["admin"]),
   CustomerController.updateCustomer
 );
 router.delete(
   "/customer/:id",
-  verifyToken(["admin", "manager"]),
+  verifyToken(["admin"]),
   CustomerController.deleteCustomer
 );
 

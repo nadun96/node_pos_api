@@ -6,7 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // functions
 
 const signup = async (req, res) => {
-  const { name, email, password, fullname, role } = req.body;
+  const { name, email, password, fullname, roles } = req.body;
   const userExist = await User.findOne({ name });
   if (userExist) {
     return res.status(400).json({ message: "User already exists", data: null });
@@ -19,18 +19,26 @@ const signup = async (req, res) => {
       email,
       password: hashedPassword,
       fullname,
-      role,
+      roles,
     });
     const savedUser = await user.save();
 
     res.status(201).json({ message: "User created", data: savedUser });
-  } catch {
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Internal server error", data: null });
   }
 };
 
 const login = async (req, res) => {
   const { name, password } = req.body;
+
+  if (!name || !password) {
+    return res
+      .status(400)
+      .json({ message: "Name and password are required", data: null });
+  }
+
   const userExist = await User.findOne({ name });
 
   if (!userExist) {

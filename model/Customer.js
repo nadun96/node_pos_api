@@ -5,7 +5,7 @@ const CustomerSchema = new mongoose.Schema({
   salary: { type: Number, required: true },
   contact: { type: String, required: true },
   email: { type: String, required: true },
-  isActive: { type: Boolean, required: true },
+  isActive: { type: Boolean, required: true, default: true },
 });
 
 module.exports = mongoose.model("Customer", CustomerSchema);

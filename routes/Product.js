@@ -5,7 +5,7 @@ const ProductController = require("../controller/Product");
 const verifyToken = require("../middleware/Auth");
 router.post(
   "/create",
-  verifyToken(["admin", "manager", "user"]),
+  verifyToken(["admin", "manager"]),
   ProductController.saveProduct
 );
 router.get(
@@ -20,7 +20,7 @@ router.get(
 );
 router.put(
   "/update/:id",
-  verifyToken(["admin", "manager", "user"]),
+  verifyToken(["admin"]),
   ProductController.updateProduct
 );
 router.delete(
@@ -30,7 +30,7 @@ router.delete(
 );
 router.get(
   "/lowstock",
-  verifyToken(["admin", "manager", "user"]),
+  verifyToken(["admin", "manager"]),
   ProductController.findLowStockProducts
 );
 
